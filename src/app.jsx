@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'preact/hooks'
+import { useState, useEffect, useMemo } from 'preact/hooks'
 import './app.css'
 import { Array1DTracer, Array2DTracer, init2D, delay } from "./defs"
-import { useRef } from 'react'
+import { useReducer, useRef } from 'react'
 
 const tracers = {
   tracer: new Array2DTracer('Knapsack Table'),
@@ -15,7 +15,17 @@ export const App = () => {
   const [playing, setPlaying] = useState(false)
   const timeRef = useRef()
   const [steps, setSteps] = useState([])
-  const [indexStep, setIndexStep] = useState(0)
+  const urlParams = useMemo(() => new URLSearchParams(window.location.search))
+  const urlStep = parseInt(urlParams.get('step') ?? 0)
+  const [indexStep, setIndexStep] = useReducer((prev, action) => {
+    const next = action.type == 'inc' ? prev + action.value : action.value
+    if (next > steps.length - 1 || next < 0) {
+      return prev
+    } else {
+      return next
+    }
+  }, urlStep)
+
   const [params, setParams] = useState({
     val: [1, 4, 5, 7], // The value of all available items
     wt: [1, 3, 4, 5], // The weights of available items
@@ -54,7 +64,7 @@ export const App = () => {
 
     }
   }
-  const run = () => {
+  const run = (step) => {
 
     const commit = () => {
       let commits = {}
@@ -65,29 +75,23 @@ export const App = () => {
       setSteps(steps => [...steps, commits])
     }
 
-    setIndexStep(0)
+    if (step)
+      setIndexStep({ value: step })
     setSteps([])
     logic(commit, params, tracers)
   }
 
 
   useEffect(() => {
-    run()
+    run(urlStep)
   }, [])
 
   const play = () => {
-    console.log(params)
+    // console.log(params)
     run()
     setPlaying(true)
     timeRef.current = setInterval(() => {
-
-      setIndexStep(s => {
-        if (s > steps.length - 1) {
-          clearInterval(timeRef.current)
-          return s
-        }
-        return s + 1
-      })
+      setIndexStep({ value: +1, type: 'inc' })
     }, 500)
   }
 
@@ -97,13 +101,13 @@ export const App = () => {
   }
 
   useEffect(() => {
-    setIndexStep(0)
+    setIndexStep({ value: urlStep })
   }, [params])
 
   const color = {
     0: '',
-    1: 'bg-blue-300',
-    2: 'bg-[#ED8E93]'
+    1: '!bg-blue-300',
+    2: '!bg-[#ED8E93]'
   }
 
 
@@ -141,9 +145,9 @@ export const App = () => {
       </div>}
       <div className='flex my-4'>
         <button className='px-3 py-2 bg-blue-400 rounded-lg mr-4' onClick={() => playing ? stop() : play()}>{playing ? 'STOP' : 'PLAY'}</button>
-        <div className="rounded-tl-lg rounded-bl-lg  cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep(i => i - 1)}>{"<"}</div>
+        <div className="rounded-tl-lg rounded-bl-lg  cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: -1, type: 'inc' })}>{"<"}</div>
         <div className="w-24 h-10 border-blue-400 border flex items-center justify-center">{`${indexStep} / ${steps.length}`}</div>
-        <div className="rounded-tr-lg rounded-br-lg cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep(i => i + 1)}>{">"}</div>
+        <div className="rounded-tr-lg rounded-br-lg cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: +1, type: 'inc' })}>{">"}</div>
       </div>
       <div className='flex flex-col gap-2 w-64 mt-4'>
         <label>
