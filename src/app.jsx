@@ -149,18 +149,18 @@ export const App = () => {
         <div className="w-24 h-10 border-blue-400 border flex items-center justify-center">{`${indexStep + 1} / ${steps.length + 1}`}</div>
         <div className="rounded-tr-lg rounded-br-lg cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: +1, type: 'inc' })}>{">"}</div>
       </div>
-      <div className='flex flex-col gap-2 w-64 mt-4'>
+      <div className='flex gap-2 w-64 mt-4'>
         <label>
-          values
+          <span className='font-bold'>values</span>
           <input name="val" onChange={changeParams} className="border-2 rounded-md p-2" type="text" value={params.val} />
         </label>
         <label>
-          weight
+          <span className='font-bold'>weight</span>
           <input name="wt" onChange={changeParams} className="border-2 rounded-md p-2" type="text" value={params.wt} />
         </label>
         <label>
-          capacity
-          <input name="W" onChange={changeParams} className="border-2 rounded-md p-2" type="text" value={params.W} />
+          <span className='font-bold'>capacity</span>
+          <input name="W" onChange={changeParams} className="border-2 rounded-md p-2 w-16" type="text" value={params.W} />
         </label>
       </div>
 
