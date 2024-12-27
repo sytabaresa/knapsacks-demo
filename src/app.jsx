@@ -16,7 +16,7 @@ export const App = () => {
   const timeRef = useRef()
   const [steps, setSteps] = useState([])
   const urlParams = useMemo(() => new URLSearchParams(window.location.search))
-  const urlStep = parseInt(urlParams.get('step') ?? 0)
+  const urlStep = parseInt(urlParams.get('step') ?? 1) - 1
   const [indexStep, setIndexStep] = useReducer((prev, action) => {
     const next = action.type == 'inc' ? prev + action.value : action.value
     if (next > steps.length - 1 || next < 0) {
@@ -146,7 +146,7 @@ export const App = () => {
       <div className='flex my-4'>
         <button className='px-3 py-2 bg-blue-400 rounded-lg mr-4' onClick={() => playing ? stop() : play()}>{playing ? 'STOP' : 'PLAY'}</button>
         <div className="rounded-tl-lg rounded-bl-lg  cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: -1, type: 'inc' })}>{"<"}</div>
-        <div className="w-24 h-10 border-blue-400 border flex items-center justify-center">{`${indexStep} / ${steps.length}`}</div>
+        <div className="w-24 h-10 border-blue-400 border flex items-center justify-center">{`${indexStep + 1} / ${steps.length + 1}`}</div>
         <div className="rounded-tr-lg rounded-br-lg cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: +1, type: 'inc' })}>{">"}</div>
       </div>
       <div className='flex flex-col gap-2 w-64 mt-4'>
