@@ -152,11 +152,11 @@ export const App = () => {
       <div className='flex gap-2 w-64 mt-4'>
         <label>
           <span className='font-bold'>values</span>
-          <input name="val" onChange={changeParams} className="border-2 rounded-md p-2" type="text" value={params.val} />
+          <input name="val" onChange={changeParams} className="border-2 rounded-md p-2 w-48" type="text" value={params.val} />
         </label>
         <label>
           <span className='font-bold'>weight</span>
-          <input name="wt" onChange={changeParams} className="border-2 rounded-md p-2" type="text" value={params.wt} />
+          <input name="wt" onChange={changeParams} className="border-2 rounded-md p-2  w-48" type="text" value={params.wt} />
         </label>
         <label>
           <span className='font-bold'>capacity</span>
