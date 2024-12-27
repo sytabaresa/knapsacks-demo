@@ -1,0 +1,12 @@
+body {
+  background-color: #F0F0EA;
+}
+
+.box {
+  /* width: 300px; */
+
+  h1 {
+    font-size: 20px;
+    margin: 0 0 1rem 0;
+  }
+}
