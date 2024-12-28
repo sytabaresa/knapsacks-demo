@@ -144,7 +144,7 @@ export const App = () => {
         })}
       </div>}
       <div className='flex my-4'>
-        <button className='px-3 py-2 bg-blue-400 rounded-lg mr-4' onClick={() => playing ? stop() : play()}>{playing ? 'STOP' : 'PLAY'}</button>
+        <button className={`px-3 py-2 rounded-lg mr-4 ${playing ? 'bg-[#ED8E93]' :'bg-blue-400'}`} onClick={() => playing ? stop() : play()}>{playing ? 'STOP' : 'PLAY'}</button>
         <div className="rounded-tl-lg rounded-bl-lg  cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: -1, type: 'inc' })}>{"<"}</div>
         <div className="w-24 h-10 border-blue-400 border flex items-center justify-center">{`${indexStep + 1} / ${steps.length + 1}`}</div>
         <div className="rounded-tr-lg rounded-br-lg cursor-pointer w-10 h-10 bg-blue-400 flex items-center justify-center" onClick={() => setIndexStep({ value: +1, type: 'inc' })}>{">"}</div>
